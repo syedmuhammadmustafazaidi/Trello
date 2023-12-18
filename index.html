@@ -1,0 +1,142 @@
+<!-- Functions: 
+1. **`drag`:** Initiates drag-and-drop on `.ticket` mousedown. (`mousedown` event)
+2. **`allowDrop`:** Allows drop on `.column` during dragover. (`dragover` event)
+3. **`drop`:** Handles drop on `.column`. (`drop` event)
+
+Events:
+1. **`mousedown`:** Initiates drag.
+2. **`dragover`:** Allows drop on `.column`.
+3. **`dragleave`:** Handles dragleave on `.column`.
+4. **`drop`:** Handles drop on `.column`. 
+
+These functions and events enable drag-and-drop in the Trello App. `drag` captures, `allowDrop` permits, and `drop` manages placement. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: rgb(34, 14, 54);
+        }
+        .heading{
+            color: rgb(0, 0, 0);
+            font-weight: bolder;
+            font-size: larger;
+            
+        }
+        .main .column{
+            background-color: rgb(55, 139, 139);
+            padding: 1rem;
+            margin: .6rem;
+            width: 40%;
+            border-radius: 5px;
+        }
+        .app-header{
+            display: flex;
+            justify-content: center;
+            background-color: rgb(56, 86, 86);
+            color: antiquewhite;
+        }
+        .main{
+            display: flex; 
+
+         }
+         .ticket{
+            background-color: antiquewhite;
+            margin: .1rem;
+            margin-top: 5px;
+            padding: 10px;
+            border-radius: 5px;
+         }
+         .main .column-droppable{
+background-color: aqua;
+         }
+    </style>
+</head>
+<body>
+ <h1 class="app-header">Trello App</h1>
+  
+ <main class="main"> 
+    <div class="column"> 
+    <div class="heading">Todo</div>
+    <div class="ticket" draggable="true">tas1 </div>
+    
+    <div class="ticket"  draggable="true">tas2 </div>
+    <div class="ticket" draggable="true">tas3 </div>
+    </div>
+ 
+  
+  
+     
+        <div class="column"> 
+    
+    <div class="heading">Completed </div>
+
+   <div class="ticket" draggable="true" >tas4</div>
+   </div>
+    </main>
+
+    
+    <script>
+        let onTheMove=undefined;
+
+        allTickets=document.querySelectorAll(".ticket");
+
+        allTickets.forEach(ticketElm => {
+            ticketElm.addEventListener("mousedown" , function(e){
+
+    console.log("e.path.className:",e.target.className);
+
+    onTheMove=e.target;
+
+});
+});
+
+allColumns=document.querySelectorAll(".column");
+
+        allColumns.forEach(columnElm => {
+
+
+            columnElm.addEventListener("dragover" , function(e ){
+                e.preventDefault();
+
+if(e.target.className ==="column"){
+    e.target.classList.add("column-droppable");
+}
+});
+
+
+
+columnElm.addEventListener("dragleave" , function(e){
+    e.preventDefault();
+
+console.log("drag leave event.target.className",e.target.className)
+if(e.target.className.includes("column")){
+    e.target.classList.remove("column-droppable")
+}
+});
+
+
+
+
+
+columnElm.addEventListener('drop', function (e) {
+
+
+console.log("drop event");
+console.log("e.target.className: ", e.target.className);
+if (e.target.className.includes("column")) {
+    e.target.appendChild(onTheMove);
+    e.target.classList.remove("column-droppable")
+
+}    });
+});
+
+    </script>
+
+</body>
+</html>
+<!-- 
+Functions: 1. **`drag` function:**    - Purpose: Handles the mousedown event on each `.ticket` element to initiate the drag-and-drop operation.    - Event: `mousedown`  2. **`allowDrop` function:**    - Purpose: Handles the dragover event on each `.column` element to allow the drop.    - Event: `dragover`  3. **`drop` function:**    - Purpose: Handles the drop event on each `.column` element to perform the drop operation.    –  Event: `drop`  Events: 1. **`mousedown` event:**    - Used in the `drag` function to initiate the drag-and-drop operation when a `.ticket` element is clicked.  2. **`dragover` event:**    - Used in the `allowDrop` function to allow the drop operation when dragging over a `.column` element.  3. **`dragleave` event:**    - Used in the `columnElm.addEventListener` to handle the dragleave event on a `.column` element.  4. **`drop` event:**    - Used in the `columnElm.addEventListener` to handle the drop event on a `.column` element.  These functions and events work together to enable the drag-and-drop functionality in your Trello App. The `drag` function captures the element being dragged, `allowDrop` enables the drop operation, and `drop` handles the placement of the dragged element in the target column. -->
